@@ -38,7 +38,8 @@ Searchable Database
 Column 
 -----------------------------------------------------------------------
 
-### Chart A
+### 
+To filter, click on the boxes above the columns. To sort, use the up/down arrows by the column names.
 
 ```{r}
 
