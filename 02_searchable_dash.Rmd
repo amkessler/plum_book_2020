@@ -1,9 +1,10 @@
 ---
-title: "Untitled"
+title: "Searchable Plum Book"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
     vertical_layout: fill
+    theme: united
 ---
 
 ```{r setup, include=FALSE}
