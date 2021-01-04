@@ -31,9 +31,6 @@ plum_combined <- plum_combined %>%
     org_name_level = as.character(org_name_level)
   ) 
 
-plum_combined %>% 
-  count(type_of_appt)
-
 #add column to translate appointment type acronym
 plum_combined <- plum_combined %>% 
   mutate(
@@ -71,4 +68,18 @@ plum_combined <- plum_combined %>%
       TRUE ~ "none included"
     )
   ) 
+
+#place new columns next to their acronym columns
+plum_combined <- plum_combined %>% 
+  select(agcy_name:type_of_appt,
+         type_of_appt_full,
+         pay_plan,
+         pay_plan_full,
+         everything())
+
+
+#save results
+saveRDS(plum_combined, "processed_data/plum_combined.rds")
+write_csv(plum_combined, "processed_data/plum_combined.csv", na = "")
+
 
