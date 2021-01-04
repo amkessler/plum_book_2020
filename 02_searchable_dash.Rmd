@@ -13,6 +13,23 @@ library(tidyverse)
 library(DT)
 
 plum_combined <- readRDS("processed_data/plum_combined.rds")
+
+#factorize categorical columns to help with DT table filtering
+glimpse(plum_combined)
+
+plum_combined <- plum_combined %>% 
+  mutate(
+    agcy_name = as.factor(agcy_name),
+    org_name = as.factor(org_name),
+    tenure = as.factor(tenure),
+    type_of_appt = as.factor(type_of_appt),
+    type_of_appt_full = as.factor(type_of_appt_full),
+    pay_plan = as.factor(pay_plan),
+    pay_plan_full = as.factor(pay_plan_full)
+  )
+
+
+
 ```
 
 Column {data-width=650}
@@ -22,8 +39,23 @@ Column {data-width=650}
 
 ```{r}
 
-datatable(plum_combined)
+plum_combined_selectcols <- plum_combined %>% 
+  select(
+    -org_name_level,
+    -id_number,
+    -pay_plan,
+    -type_of_appt
+  )
 
+datatable(plum_combined_selectcols,
+          rownames = FALSE,
+          filter = "top",
+          extensions = 'Buttons',
+          options = list(searchHighlight = TRUE, dom = 'Bfrtip',
+                    buttons = c('copy', 'csv', 'excel', 'print')
+                    )) %>%
+          formatDate("expires")
+          
 ```
 
 Column {data-width=350}
