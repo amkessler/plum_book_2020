@@ -1,5 +1,5 @@
 ---
-title: "Searchable Plum Book"
+title: "Plum Book App"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -32,7 +32,10 @@ plum_combined <- plum_combined %>%
 
 ```
 
-Column {data-width=650}
+Searchable Database
+===================================== 
+
+Column 
 -----------------------------------------------------------------------
 
 ### Chart A
@@ -45,20 +48,24 @@ plum_combined_selectcols <- plum_combined %>%
     -id_number,
     -pay_plan,
     -type_of_appt
-  )
+  ) %>% 
+  arrange(agcy_name)
 
 datatable(plum_combined_selectcols,
           rownames = FALSE,
           filter = "top",
           extensions = 'Buttons',
-          options = list(searchHighlight = TRUE, dom = 'Bfrtip',
+          options = list(searchHighlight = TRUE, pageLength = 15, dom = 'Bfrtip',
                     buttons = c('copy', 'csv', 'excel', 'print')
                     )) %>%
           formatDate("expires")
           
 ```
 
-Column {data-width=350}
+Summary Charts
+===================================== 
+
+Column 
 -----------------------------------------------------------------------
 
 ### Chart B
