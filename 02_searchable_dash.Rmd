@@ -1,5 +1,5 @@
 ---
-title: "Plum Book App"
+title: "Plum Book 2020 App"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
