@@ -2,7 +2,7 @@
 title: "Plum Book App"
 output: 
   flexdashboard::flex_dashboard:
-    orientation: rows
+    orientation: columns
     vertical_layout: fill
     theme: united
 ---
@@ -11,6 +11,7 @@ output:
 library(flexdashboard)
 library(tidyverse)
 library(DT)
+library(plotly)
 
 plum_combined <- readRDS("processed_data/plum_combined.rds")
 
@@ -69,15 +70,76 @@ Summary Charts
 Column 
 -----------------------------------------------------------------------
 
-### Chart B
+### Top Departments (# of Positions)
 
 ```{r}
+
+byagency <- plum_combined %>%
+  count(agcy_name) %>%
+  arrange(desc(n)) %>% 
+  head(15)
+
+#reorder factors to order bars descending
+byagency <- byagency %>%
+  mutate(
+    agcy_name = str_remove(agcy_name, "DEPARTMENT OF THE "),
+    agcy_name = str_remove(agcy_name, "DEPARTMENT OF "),
+    agcy_name = as.factor(agcy_name),
+    agcy_name = fct_reorder(agcy_name, n)
+    )
+
+#make chart
+d <- ggplot(data = byagency, aes(x = agcy_name, y = n)) +
+  geom_col(
+    # color = "#848484",
+    fill = "#ffb3ba") + 
+  coord_flip() +
+  theme_minimal()
+d2 <- d + labs(x ="", y = "") +
+  theme(legend.title=element_blank()) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+dd <- ggplotly(d2) 
+dd_nomenu <- dd %>% config(displayModeBar = FALSE)
+dd_nomenu
+
+
 
 ```
 
-### Chart C
+Column 
+-----------------------------------------------------------------------
+
+### Appointment Types (# of Positions)
 
 ```{r}
+
+
+bytype <- plum_combined %>%
+  filter(type_of_appt_full != "none included") %>% 
+  count(type_of_appt_full) %>%
+  arrange(desc(n))
+
+#reorder factors to order bars descending
+bytype <- bytype %>%
+  mutate(
+    type_of_appt_full = as.factor(type_of_appt_full),
+    type_of_appt_full = fct_reorder(type_of_appt_full, n)
+    )
+
+#make chart
+d <- ggplot(data = bytype, aes(x = type_of_appt_full, y = n)) +
+  geom_col(
+    # color = "#848484",
+    fill = "#BEE5A3") + 
+  coord_flip() +
+  theme_minimal()
+d2 <- d + labs(x ="", y = "") +
+  theme(legend.title=element_blank()) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+dd <- ggplotly(d2) 
+dd_nomenu <- dd %>% config(displayModeBar = FALSE)
+dd_nomenu
+
 
 ```
 
