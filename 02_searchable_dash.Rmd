@@ -39,8 +39,8 @@ Searchable Database
 Column 
 -----------------------------------------------------------------------
 
-### 
-To filter, click on the boxes above the columns. To sort, use the up/down arrows by the column names.
+### To filter, click on the boxes above the columns. To sort, use the up/down arrows by the column names.
+
 
 ```{r}
 
